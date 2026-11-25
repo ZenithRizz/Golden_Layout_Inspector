@@ -15,8 +15,6 @@ from __future__ import annotations
 
 import re
 
-PERIPHERY = ("ROW_DECODER", "SENSE_AMP", "WRITE_DRIVER", "PRECHARGE", "COL_MUX", "CONTROL")
-COSMETIC_REGIONS = ("OUTSIDE", "DUMMY_ARRAY")
 
 
 def _idx(nets, prefix):
