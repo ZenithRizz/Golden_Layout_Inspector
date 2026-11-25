@@ -248,17 +248,6 @@ Golden_Layout_Inspector/
 - **Spares are a configured budget** (2 rows + 2 columns); this OpenRAM configuration doesn't generate redundancy.
 - **Product vision:** manufacturers upload their own GDS/OASIS layout as the golden reference; this proof of concept uses an OpenRAM SRAM.
 
-## Team
-
-| Role | Name |
-|---|---|
-| Team leader | Nikhila S Hari |
-| Team member | Hardik Singhal |
-| Team member | Shivansh Gupta |
-| Faculty mentor | Dr. Abhishek Sharma |
-
-The LNM Institute of Information Technology (LNMIIT), Jaipur
-
 ## Licences and acknowledgements
 
 - [OpenRAM](https://openram.org): BSD 3-Clause, used as a tool to generate the golden layout.
