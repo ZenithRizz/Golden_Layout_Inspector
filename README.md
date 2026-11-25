@@ -17,7 +17,7 @@
 
 ---
 
-Optical inspection usually tells you **where** a defect is. Golden-Layout Inspector also tells you **what it breaks and how to fix it**. It compares a camera image of an SRAM die with the memory's own design layout, generated with [OpenRAM](https://openram.org), traces each defect to the exact bitcells, rows, columns and nets, decides **repair or scrap** with deterministic rules, and uses **Llama 3.2 1B running on-device** to explain the likely electrical fault and the March test that confirms it.
+Optical inspection simply tells you **where** a defect is. Golden-Layout Inspector also tells you **what it breaks and how to fix it**. It compares a camera image of an SRAM die with the memory's own design layout, generated with [OpenRAM](https://openram.org), traces each defect to the exact bitcells, rows, columns and nets, decides **repair or scrap** with deterministic rules, and uses **Llama 3.2 1B running on-device** to explain the likely electrical fault and the March test that confirms it.
 
 Everything runs offline on an Arm CPU. **No real defect images are needed**: the training data is generated from the layout itself.
 
