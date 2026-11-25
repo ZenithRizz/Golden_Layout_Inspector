@@ -1,0 +1,37 @@
+digraph G {
+  rankdir=TB; newrank=true; bgcolor="white"; nodesep=0.35; ranksep=0.32; fontname="Arial";
+  node [shape=box, style="rounded,filled", fontname="Arial", fontsize=13, color="#8a94a6", fillcolor="#ffffff", penwidth=1.2, width=2.6];
+  edge [color="#56607a", arrowsize=0.8, fontname="Arial", fontsize=11];
+  subgraph cluster_off { label="OFFLINE: laptop / Colab"; fontsize=14; style="rounded,dashed"; color="#b0b8c8";
+    openram [label="OpenRAM 16x16 SRAM\nGDS layout (scn4m_subm)"];
+    pkg [label="Golden design package\nrender, 7 region types,\n256 bitcells, 3,584 pin nets"];
+    synth [label="Synthetic defects +\ncamera simulation\n23,288 labelled crops"];
+    cnn [label="Train CNN (147k params)\nexport ONNX"];
+    pte [label="Llama 3.2 1B Instruct\nExecuTorch export\n8da4w + XNNPACK -> .pte"];
+    openram -> pkg -> synth -> cnn -> pte [style=invis];
+    openram -> pkg -> synth -> cnn;
+  }
+  subgraph cluster_dev { label="ON-DEVICE: Nothing Phone (3a) Pro, Snapdragon 7s Gen 3 (Arm Cortex-A720 / A520), offline"; fontsize=14; style="rounded"; color="#1b64be"; penwidth=1.8;
+    cam [label="Rear camera via IP Webcam\n(localhost) or image upload", fillcolor="#eef4fd"];
+    subgraph cluster_v { label="VISION PIPELINE (Arm CPU, real time)"; fontsize=13; style="rounded,filled"; fillcolor="#f4f8fe"; color="#9dc8f7";
+      reg [label="ArUco homography +\nECC sub-pixel alignment"];
+      diff [label="Golden-layout difference\n(or cell-to-cell, no layout)"];
+      cls [label="CNN classifier\n(OpenCV DNN)"];
+      reg -> diff -> cls;
+    }
+    map [label="Map to layout:\nregion, nets, rows/cols"];
+    rules [label="Deterministic rules: severity,\nfault footprint, spare allocation"];
+    subgraph cluster_a { label="ADVISOR PIPELINE (Arm CPU, background)"; fontsize=13; style="rounded,filled"; fillcolor="#fff7ee"; color="#f3c38a";
+      kb [label="Fault KB retrieval\n(26 entries)"];
+      llama [label="llama_main (ExecuTorch)\nLlama 3.2 1B, 4-bit"];
+      val [label="Validate + compose advice\n(template fallback)"];
+      kb -> llama -> val;
+    }
+    ui [label="Operator UI + audio alert\nSQLite log, CSV/JSON export,\nrepair map", fillcolor="#eef4fd"];
+    cam -> reg; cls -> map -> rules; rules -> kb; rules -> ui; val -> ui;
+  }
+  {rank=same; openram; cam;}
+  pkg -> reg [style=dashed, label=" golden image "];
+  cnn -> cls [style=dashed, label=" model "];
+  pte -> llama [style=dashed, label=" .pte "];
+}

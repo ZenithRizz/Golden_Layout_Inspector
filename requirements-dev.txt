@@ -1,0 +1,6 @@
+# Laptop / Colab: data generation, training, tests
+-r requirements.txt
+torch>=2.2
+onnx>=1.15
+pytest>=8
+openram==1.2.48     # SRAM compiler (BSD-3), used as a tool to generate the golden layout

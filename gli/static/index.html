@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Golden-Layout Inspector</title>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<header>
+  <div class="brand">Golden-Layout Inspector <span class="sub">SRAM die inspection · on-device</span></div>
+  <nav>
+    <button data-view="home" class="nav on">Home</button>
+    <button data-view="live" class="nav">Live</button>
+    <button data-view="detail" class="nav" id="navDetail" disabled>Inspection</button>
+    <button data-view="log" class="nav">Log</button>
+  </nav>
+  <div class="offline" id="offline" title="No network access is used">● Offline</div>
+</header>
+
+<main>
+<!-- HOME -->
+<section id="v-home" class="view on">
+  <div class="cards" id="cards"></div>
+  <div class="panel">
+    <h3>Loaded design</h3>
+    <div id="designInfo" class="muted">Loading…</div>
+  </div>
+  <div class="row">
+    <button class="primary big" id="startBtn">Start inspection</button>
+    <button id="homeLog">Inspection log</button>
+  </div>
+  <div id="notes"></div>
+</section>
+
+<!-- LIVE -->
+<section id="v-live" class="view">
+  <div class="live-grid">
+    <div class="feed">
+      <img id="feed" alt="Live camera feed with detections">
+      <div id="liveBanner" class="banner hidden"></div>
+    </div>
+    <aside class="side">
+      <label class="lbl">Die ID</label>
+      <input id="dieId" placeholder="auto (DIE-0001…)">
+      <button class="primary big" id="inspectBtn">Inspect <span class="kbd">Space</span></button>
+      <div id="inspectMsg" class="msg"></div>
+      <div class="stats" id="liveStats"></div>
+      <h4>Live detections</h4>
+      <div id="liveCounts" class="counts muted">–</div>
+      <hr>
+      <label class="upload">Upload image (target photo or any die)<input type="file" id="upload" accept="image/*"></label>
+      <div class="muted small">With the printed markers: full layout check. Without: cell-to-cell check of the memory array.</div>
+      <div id="virtualBox" class="hidden">
+        <button id="newDie">New virtual die</button>
+        <select id="nDef"><option>0</option><option>1</option><option>2</option><option selected>3</option><option>5</option></select>
+        <span class="muted small">defects</span>
+      </div>
+      <div class="muted small" id="srcInfo"></div>
+    </aside>
+  </div>
+</section>
+
+<!-- DETAIL -->
+<section id="v-detail" class="view">
+  <div id="dieBanner" class="die-banner"></div>
+  <div class="detail-grid">
+    <div class="pane">
+      <h4>Frozen frame</h4>
+      <img id="frozen" alt="Inspected frame">
+      <div id="defList" class="deflist"></div>
+    </div>
+    <div class="pane">
+      <h4 id="zoomTitle">Layout view</h4>
+      <img id="zoom" alt="Layout zoom">
+      <div id="mapInfo" class="mapinfo"></div>
+    </div>
+    <div class="pane advisor">
+      <h4>Advisor <span id="advSrc" class="tag"></span></h4>
+      <div id="advCard" class="adv-card"></div>
+    </div>
+  </div>
+  <div class="row actions">
+    <button id="prevDef">← Prev</button>
+    <button id="nextDef">Next →</button>
+    <span class="grow"></span>
+    <button class="primary" id="acceptBtn">Accept decision</button>
+    <button id="overrideBtn">Override…</button>
+    <button id="reinspectBtn">Re-inspect</button>
+  </div>
+  <div class="panel" id="summary">
+    <h3>Die summary &amp; repair map</h3>
+    <div class="summary-grid">
+      <img id="repairMap" alt="Repair map">
+      <div>
+        <table id="defTable"></table>
+        <div class="row"><a id="rmJson" class="button" download>Export repair map (JSON)</a>
+        <a id="rmPng" class="button" download>Repair map (PNG)</a>
+        <button class="primary" id="nextDie">Next die</button></div>
+        <div id="saved" class="muted small"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LOG -->
+<section id="v-log" class="view">
+  <div class="row"><a class="button" href="/api/export?fmt=csv">Export CSV</a><a class="button" href="/api/export?fmt=json">Export JSON</a>
+    <span class="grow"></span><button id="refreshLog">Refresh</button></div>
+  <table id="logTable" class="log"></table>
+</section>
+</main>
+
+<dialog id="ovr">
+  <form method="dialog">
+    <h3>Override decision</h3>
+    <label class="lbl">New decision</label>
+    <select id="ovrDecision"><option>PASS</option><option>REPAIR</option><option>SCRAP</option><option>RE_INSPECT</option></select>
+    <label class="lbl">Reason (required)</label>
+    <select id="ovrReason"><option value="">Choose…</option><option>False detection</option><option>Already repaired</option><option>Engineer decision</option><option>Other</option></select>
+    <label class="lbl">Note</label><input id="ovrNote">
+    <div class="row"><button value="cancel">Cancel</button><button class="primary" id="ovrOk" value="ok">Save override</button></div>
+  </form>
+</dialog>
+<script src="/static/app.js"></script>
+</body>
+</html>

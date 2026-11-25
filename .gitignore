@@ -1,0 +1,16 @@
+__pycache__/
+*.pyc
+.venv/
+runs/
+bench/
+.pytest_cache/
+# regenerable / large
+data/*/crops.npz
+models/calib_nhwc.npy
+models/defect_cls.pt
+# Llama weights are not redistributed here (export them yourself: notebooks/export_llama_colab.ipynb)
+*.pte
+*.pth
+tokenizer.model
+# office lock files
+~$*

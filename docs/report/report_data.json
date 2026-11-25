@@ -1,0 +1,42 @@
+{
+  "team": {
+    "name": null,
+    "leader": "Nikhila S Hari",
+    "members": "Hardik Singhal, Shivansh Gupta",
+    "college": "The LNM Institute of Information Technology (LNMIIT), Jaipur",
+    "mentor": "Dr. Abhishek Sharma",
+    "repo": "https://github.com/ZenithRizz/Golden_Layout_Inspector",
+    "video": null
+  },
+  "device": {
+    "name": "Nothing Phone (3a) Pro",
+    "soc": "Qualcomm Snapdragon 7s Gen 3 (4 nm)",
+    "cpu": "8 Arm cores: 1x Cortex-A720 @ 2.5 GHz, 3x Cortex-A720 @ 2.4 GHz, 4x Cortex-A520 @ 1.8 GHz",
+    "ram": null,
+    "os": "Android (Nothing OS) + Termux, Python 3.14, OpenCV 4.13"
+  },
+  "phone_bench": {
+    "live_fps": null,
+    "live_frame_ms_p50": null,
+    "register_ms_p50": null,
+    "diff_ms_p50": null,
+    "classify_ms_p50": null,
+    "inspect_to_decision_ms_p50": null,
+    "llama_model_load_ms_p50": null,
+    "llama_ttft_ms_p50": null,
+    "llama_prefill_tok_s_p50": null,
+    "llama_decode_tok_s_p50": null,
+    "advice_latency_ms_p50": null,
+    "llama_valid_rate": null,
+    "detection_recall": null,
+    "detection_precision": null,
+    "class_accuracy_on_found": null,
+    "dies": null
+  },
+  "phone_log_sample": {
+    "advice_from_llama": 28,
+    "advice_total": 30,
+    "date": "22 and 25 Nov 2026",
+    "inspections": 12
+  }
+}

@@ -1,0 +1,62 @@
+[2026-11-19 09:25:40.468476] |==============================================================================|
+[2026-11-19 09:25:40.468679] |=========                      OpenRAM v1.2.48                       =========|
+[2026-11-19 09:25:40.468734] |=========                                                            =========|
+[2026-11-19 09:25:40.468774] |=========               VLSI Design and Automation Lab               =========|
+[2026-11-19 09:25:40.468821] |=========        Computer Science and Engineering Department         =========|
+[2026-11-19 09:25:40.468839] |=========            University of California Santa Cruz             =========|
+[2026-11-19 09:25:40.468851] |=========                                                            =========|
+[2026-11-19 09:25:40.468862] |=========          Usage help: openram-user-group@ucsc.edu           =========|
+[2026-11-19 09:25:40.468872] |=========        Development help: openram-dev-group@ucsc.edu        =========|
+[2026-11-19 09:25:40.468882] |=========                See LICENSE for license info                =========|
+[2026-11-19 09:25:40.468892] |==============================================================================|
+[2026-11-19 09:25:40.468907] ** Start: 11/19/2026 09:25:40
+[2026-11-19 09:25:40.468922] Technology: scn4m_subm
+[2026-11-19 09:25:40.468934] Total size: 256 bits
+[2026-11-19 09:25:40.468945] Word size: 16
+Words: 16
+Banks: 1
+[2026-11-19 09:25:40.468955] RW ports: 1
+R-only ports: 0
+W-only ports: 0
+[2026-11-19 09:25:40.468966] Design supply routing skipped. Supplies will have multiple must-connect pins. (route_supplies=True to enable supply routing).
+[2026-11-19 09:25:40.468976] DRC/LVS/PEX is only run on the top-level design to save run-time (inline_lvsdrc=True to do inline checking).
+[2026-11-19 09:25:40.468986] DRC/LVS/PEX is disabled (check_lvsdrc=True to enable).
+[2026-11-19 09:25:40.468996] Characterization is disabled (using analytical delay models) (analytical_delay=False to simulate).
+[2026-11-19 09:25:40.469005] Only generating nominal corner timing.
+[2026-11-19 09:25:40.469016] Words per row: None
+[2026-11-19 09:25:40.469031] Output files are: 
+[2026-11-19 09:25:40.469041] /home/claude/gli/openram_out/sram_16x16/sram_16x16_scn4m.lvs
+[2026-11-19 09:25:40.469051] /home/claude/gli/openram_out/sram_16x16/sram_16x16_scn4m.sp
+[2026-11-19 09:25:40.469061] /home/claude/gli/openram_out/sram_16x16/sram_16x16_scn4m.v
+[2026-11-19 09:25:40.469070] /home/claude/gli/openram_out/sram_16x16/sram_16x16_scn4m.lib
+[2026-11-19 09:25:40.469079] /home/claude/gli/openram_out/sram_16x16/sram_16x16_scn4m.py
+[2026-11-19 09:25:40.469088] /home/claude/gli/openram_out/sram_16x16/sram_16x16_scn4m.html
+[2026-11-19 09:25:40.469097] /home/claude/gli/openram_out/sram_16x16/sram_16x16_scn4m.log
+[2026-11-19 09:25:40.469106] /home/claude/gli/openram_out/sram_16x16/sram_16x16_scn4m.lef
+[2026-11-19 09:25:40.469115] /home/claude/gli/openram_out/sram_16x16/sram_16x16_scn4m.gds
+[2026-11-19 09:25:40.989434] ** Submodules: 0.5 seconds
+[2026-11-19 09:25:41.000872] ** Placement: 0.0 seconds
+[2026-11-19 09:25:42.810842] ** Routing: 1.8 seconds
+[2026-11-19 09:25:42.812888] ** Verification: 0.0 seconds
+[2026-11-19 09:25:42.812984] ** SRAM creation: 2.3 seconds
+[2026-11-19 09:25:42.813032] SP: Writing to /home/claude/gli/openram_out/sram_16x16/sram_16x16_scn4m.sp
+[2026-11-19 09:25:42.835631] ** Spice writing: 0.0 seconds
+[2026-11-19 09:25:42.835712] DELAY: Writing stimulus...
+[2026-11-19 09:25:42.894309] ** DELAY: 0.1 seconds
+[2026-11-19 09:25:42.901785] GDS: Writing to /home/claude/gli/openram_out/sram_16x16/sram_16x16_scn4m.gds
+[2026-11-19 09:25:42.929713] ** GDS: 0.0 seconds
+[2026-11-19 09:25:42.929819] LEF: Writing to /home/claude/gli/openram_out/sram_16x16/sram_16x16_scn4m.lef
+[2026-11-19 09:25:42.935472] ** LEF: 0.0 seconds
+[2026-11-19 09:25:42.935530] LVS: Writing to /home/claude/gli/openram_out/sram_16x16/sram_16x16_scn4m.lvs.sp
+[2026-11-19 09:25:42.943402] ** LVS writing: 0.0 seconds
+[2026-11-19 09:25:42.943485] LIB: Characterizing... 
+[2026-11-19 09:25:43.021492] WARNING: file lib.py: line 778: Failed to retrieve git id
+
+[2026-11-19 09:25:43.022346] ** Characterization: 0.1 seconds
+[2026-11-19 09:25:43.022500] Config: Writing to /home/claude/gli/openram_out/sram_16x16/sram_16x16_scn4m.py
+[2026-11-19 09:25:43.022541] ** Config: 0.0 seconds
+[2026-11-19 09:25:43.028834] Datasheet: Writing to /home/claude/gli/openram_out/sram_16x16/sram_16x16_scn4m.html
+[2026-11-19 09:25:43.029882] ** Datasheet: 0.0 seconds
+[2026-11-19 09:25:43.029964] Verilog: Writing to /home/claude/gli/openram_out/sram_16x16/sram_16x16_scn4m.v
+[2026-11-19 09:25:43.030086] ** Verilog: 0.0 seconds
+[2026-11-19 09:25:43.030404] ** End: 2.6 seconds

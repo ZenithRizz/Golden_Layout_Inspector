@@ -1,0 +1,194 @@
+{
+ "target_repair.jpg": {
+  "mode": "layout (OpenRAM golden)",
+  "expected_die_decision": "REPAIR",
+  "station_result": "REPAIR",
+  "defects": [
+   {
+    "class": "BRIDGE",
+    "region": "BITCELL_ARRAY",
+    "nets": [
+     "br_6",
+     "vdd"
+    ],
+    "rows": [
+     0,
+     1
+    ],
+    "cols": [
+     6
+    ],
+    "severity": "REPAIRABLE",
+    "action": "REPAIR_COL"
+   },
+   {
+    "class": "PARTICLE",
+    "region": "BITCELL_ARRAY",
+    "nets": [
+     "bl_7",
+     "br_6",
+     "qb_7_6",
+     "gnd"
+    ],
+    "rows": [
+     7
+    ],
+    "cols": [
+     6,
+     7
+    ],
+    "severity": "REPAIRABLE",
+    "action": "REPAIR_COL"
+   }
+  ],
+  "allocation": {
+   "ok": true,
+   "spare_rows_used": [],
+   "spare_cols_used": [
+    6,
+    7
+   ],
+   "spare_rows": 2,
+   "spare_cols": 2,
+   "virtual_budget": true
+  }
+ },
+ "target_scrap.jpg": {
+  "mode": "layout (OpenRAM golden)",
+  "expected_die_decision": "SCRAP",
+  "station_result": "SCRAP",
+  "defects": [
+   {
+    "class": "PARTICLE",
+    "region": "BITCELL_ARRAY",
+    "nets": [
+     "bl_7",
+     "gnd"
+    ],
+    "rows": [
+     15
+    ],
+    "cols": [
+     7
+    ],
+    "severity": "REPAIRABLE",
+    "action": "SCRAP"
+   },
+   {
+    "class": "PARTICLE",
+    "region": "PRECHARGE",
+    "nets": [],
+    "rows": [],
+    "cols": [],
+    "severity": "KILLER",
+    "action": "SCRAP"
+   }
+  ],
+  "allocation": {
+   "ok": true,
+   "spare_rows_used": [],
+   "spare_cols_used": [
+    7,
+    8
+   ],
+   "spare_rows": 2,
+   "spare_cols": 2,
+   "virtual_budget": true
+  }
+ },
+ "target_pass.jpg": {
+  "mode": "layout (OpenRAM golden)",
+  "expected_die_decision": "PASS",
+  "station_result": "PASS",
+  "defects": [],
+  "allocation": {
+   "ok": true,
+   "spare_rows_used": [],
+   "spare_cols_used": [],
+   "spare_rows": 2,
+   "spare_cols": 2,
+   "virtual_budget": true
+  }
+ },
+ "die_sram_array_no_markers.jpg": {
+  "mode": "reference_free",
+  "expected_die_decision": "RE_INSPECT",
+  "station_result": "RE_INSPECT",
+  "defects": [
+   {
+    "class": "BRIDGE",
+    "region": "UNMAPPED",
+    "nets": [],
+    "rows": [],
+    "cols": [],
+    "severity": "REVIEW",
+    "action": "REINSPECT"
+   },
+   {
+    "class": "OPEN",
+    "region": "UNMAPPED",
+    "nets": [],
+    "rows": [],
+    "cols": [],
+    "severity": "REVIEW",
+    "action": "REINSPECT"
+   },
+   {
+    "class": "BRIDGE",
+    "region": "UNMAPPED",
+    "nets": [],
+    "rows": [],
+    "cols": [],
+    "severity": "REVIEW",
+    "action": "REINSPECT"
+   }
+  ],
+  "allocation": null
+ },
+ "die_other_memory.jpg": {
+  "mode": "reference_free",
+  "expected_die_decision": "RE_INSPECT",
+  "station_result": "RE_INSPECT",
+  "defects": [
+   {
+    "class": "PARTICLE",
+    "region": "UNMAPPED",
+    "nets": [],
+    "rows": [],
+    "cols": [],
+    "severity": "REVIEW",
+    "action": "REINSPECT"
+   },
+   {
+    "class": "BRIDGE",
+    "region": "UNMAPPED",
+    "nets": [],
+    "rows": [],
+    "cols": [],
+    "severity": "REVIEW",
+    "action": "REINSPECT"
+   },
+   {
+    "class": "OPEN",
+    "region": "UNMAPPED",
+    "nets": [],
+    "rows": [],
+    "cols": [],
+    "severity": "REVIEW",
+    "action": "REINSPECT"
+   }
+  ],
+  "allocation": null
+ },
+ "die_other_memory_clean.jpg": {
+  "mode": "reference_free",
+  "expected_die_decision": "PASS",
+  "station_result": "PASS",
+  "defects": [],
+  "allocation": null
+ },
+ "not_a_memory_array.jpg": {
+  "mode": "rejected",
+  "expected": "error: No repeating memory array found"
+ }
+}

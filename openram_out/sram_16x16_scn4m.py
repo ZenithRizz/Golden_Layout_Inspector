@@ -1,0 +1,14 @@
+word_size = 16
+num_words = 16
+tech_name = "scn4m_subm"
+nominal_corner_only = True
+process_corners = ["TT"]
+supply_voltages = [5.0]
+temperatures = [25]
+route_supplies = False
+check_lvsdrc = False
+perimeter_pins = False
+analytical_delay = True
+inline_lvsdrc = False
+output_path = "/home/claude/gli/openram_out/sram_16x16"
+output_name = "sram_16x16_scn4m"

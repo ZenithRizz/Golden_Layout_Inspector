@@ -1,0 +1,80 @@
+{
+ "val_accuracy": 0.9733,
+ "macro_recall": 0.9708,
+ "per_class": {
+  "NONE": {
+   "precision": 0.986,
+   "recall": 0.99,
+   "support": 929
+  },
+  "BRIDGE": {
+   "precision": 0.948,
+   "recall": 0.948,
+   "support": 463
+  },
+  "OPEN": {
+   "precision": 0.991,
+   "recall": 0.98,
+   "support": 345
+  },
+  "PARTICLE": {
+   "precision": 0.966,
+   "recall": 0.962,
+   "support": 613
+  },
+  "MISSING_VIA": {
+   "precision": 0.962,
+   "recall": 0.974,
+   "support": 155
+  }
+ },
+ "confusion_matrix": {
+  "labels": [
+   "NONE",
+   "BRIDGE",
+   "OPEN",
+   "PARTICLE",
+   "MISSING_VIA"
+  ],
+  "matrix": [
+   [
+    920,
+    1,
+    2,
+    1,
+    5
+   ],
+   [
+    4,
+    439,
+    0,
+    20,
+    0
+   ],
+   [
+    6,
+    0,
+    338,
+    0,
+    1
+   ],
+   [
+    0,
+    23,
+    0,
+    590,
+    0
+   ],
+   [
+    3,
+    0,
+    1,
+    0,
+    151
+   ]
+  ]
+ },
+ "train_size": 14196,
+ "val_size": 2505,
+ "epochs": 8
+}

@@ -1,0 +1,30 @@
+{
+ "tiles": 8000,
+ "crops": 23288,
+ "counts": {
+  "NONE": 12587,
+  "BRIDGE": 3151,
+  "OPEN": 2452,
+  "PARTICLE": 3979,
+  "MISSING_VIA": 1119
+ },
+ "candidate_recall": {
+  "MISSING_VIA": 0.432,
+  "OPEN": 0.686,
+  "PARTICLE": 0.984,
+  "BRIDGE": 0.817
+ },
+ "defects": {
+  "MISSING_VIA": 2577,
+  "OPEN": 3559,
+  "PARTICLE": 3982,
+  "BRIDGE": 3749
+ },
+ "classes": [
+  "NONE",
+  "BRIDGE",
+  "OPEN",
+  "PARTICLE",
+  "MISSING_VIA"
+ ]
+}

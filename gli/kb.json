@@ -1,0 +1,594 @@
+{
+ "version": "1.0",
+ "fault_models": {
+  "SAF": "Stuck-at fault: a cell always reads 0 or 1.",
+  "TF": "Transition fault: a cell cannot make a 0->1 or 1->0 transition.",
+  "CF": "Coupling fault: writing or reading one cell disturbs a neighbouring cell.",
+  "SOF": "Stuck-open fault: the cell cannot be accessed, reads return stale data.",
+  "DRF": "Data retention fault: the cell loses its value after a pause.",
+  "BL_OPEN": "Bitline open: cells beyond the break cannot be read or written on that column.",
+  "BL_BRIDGE": "Bitline bridge: a bitline is shorted to its complement, a neighbour or a supply; the column misreads.",
+  "WL_OPEN": "Wordline open: cells beyond the break are never selected on that row.",
+  "WL_BRIDGE": "Wordline bridge: a wordline is shorted; the row is mis-selected or always selected.",
+  "PWR_SHORT": "Supply short: vdd shorted to gnd; the die draws excess current.",
+  "AF": "Address decoder fault: wrong, multiple or no rows selected for an address.",
+  "SA_FAULT": "Sense amplifier fault: the column output is wrong or slow.",
+  "WD_FAULT": "Write driver fault: the column cannot be written correctly.",
+  "PRE_FAULT": "Precharge fault: bitlines are not precharged; reads on the column fail.",
+  "CTRL_FAULT": "Control logic fault: clocks or enables are wrong; the macro misbehaves globally.",
+  "NO_FAULT": "No functional effect expected.",
+  "UNKNOWN": "Effect cannot be determined from the image."
+ },
+ "tests": {
+  "MATS+": "Short March test (w0; up r0,w1; down r1,w0); catches stuck-at and address faults.",
+  "March C-": "10N March test; catches stuck-at, transition, address and most coupling faults.",
+  "March SS": "22N March test; adds static coupling and read-disturb coverage.",
+  "Checkerboard": "Alternating 0/1 pattern; exposes bridges between neighbouring cells and lines.",
+  "Data retention test": "Write, pause (e.g. 100 ms), read; exposes weak pull-ups and opens on supply lines.",
+  "Address decoder test": "March C- with address-complement ordering; targets decoder faults.",
+  "IDDQ test": "Measure quiescent supply current; exposes supply shorts and bridges.",
+  "Functional test": "Full read/write functional test of the macro at speed.",
+  "Visual re-inspection": "Re-image the area at higher magnification before deciding."
+ },
+ "entries": [
+  {
+   "id": "KB01",
+   "cls": [
+    "BRIDGE"
+   ],
+   "region": [
+    "BITCELL_ARRAY"
+   ],
+   "nets_all": [
+    "bl_*",
+    "br_*"
+   ],
+   "same_index": true,
+   "fault_models": [
+    "BL_BRIDGE",
+    "CF"
+   ],
+   "tests": [
+    "March C-",
+    "Checkerboard"
+   ],
+   "action": "REPAIR_COL",
+   "template": "Bridge between bitline and its complement on column {cols} makes reads on that column fail. Run March C- on column {cols} to confirm, then replace it with a spare column.",
+   "source": "Bitline-pair bridges behave as column-wide read faults (van de Goor, Testing Semiconductor Memories, ch. on bridging faults)."
+  },
+  {
+   "id": "KB02",
+   "cls": [
+    "BRIDGE"
+   ],
+   "region": [
+    "BITCELL_ARRAY"
+   ],
+   "nets_multi_cols": true,
+   "fault_models": [
+    "CF",
+    "BL_BRIDGE"
+   ],
+   "tests": [
+    "Checkerboard",
+    "March SS"
+   ],
+   "action": "REPAIR_COL",
+   "template": "Bridge between bitlines of neighbouring columns {cols} couples them. Run a checkerboard and March SS on columns {cols}; repair both columns with spares if confirmed.",
+   "source": "Inter-column bridges cause coupling faults detected by checkerboard patterns."
+  },
+  {
+   "id": "KB03",
+   "cls": [
+    "BRIDGE"
+   ],
+   "region": [
+    "BITCELL_ARRAY"
+   ],
+   "nets_any": [
+    "wl_*"
+   ],
+   "fault_models": [
+    "WL_BRIDGE",
+    "SAF"
+   ],
+   "tests": [
+    "March C-",
+    "Address decoder test"
+   ],
+   "action": "REPAIR_ROW",
+   "template": "Bridge on wordline of row {rows} disturbs row selection. Run March C- with address-complement order on row {rows}; replace the row with a spare row.",
+   "source": "Wordline shorts appear as row-wide stuck-at or address faults."
+  },
+  {
+   "id": "KB04",
+   "cls": [
+    "BRIDGE",
+    "PARTICLE"
+   ],
+   "region": [
+    "BITCELL_ARRAY",
+    "DUMMY_ARRAY",
+    "ROUTING"
+   ],
+   "nets_all": [
+    "vdd",
+    "gnd"
+   ],
+   "fault_models": [
+    "PWR_SHORT"
+   ],
+   "tests": [
+    "IDDQ test",
+    "Functional test"
+   ],
+   "action": "SCRAP",
+   "template": "Material shorts vdd to gnd. Confirm with an IDDQ current measurement; a supply short cannot be repaired, scrap the die.",
+   "source": "Supply shorts raise quiescent current and are not repairable with redundancy."
+  },
+  {
+   "id": "KB05",
+   "cls": [
+    "BRIDGE"
+   ],
+   "region": [
+    "BITCELL_ARRAY"
+   ],
+   "nets_any": [
+    "q_*",
+    "qb_*"
+   ],
+   "fault_models": [
+    "SAF",
+    "CF"
+   ],
+   "tests": [
+    "March C-"
+   ],
+   "action": "REPAIR_COL",
+   "template": "Bridge on the storage node of cell row {rows}, column {cols} pins the cell to one value. Run March C- to confirm the stuck-at fault and repair with a spare row or column.",
+   "source": "Storage-node shorts produce stuck-at faults."
+  },
+  {
+   "id": "KB06",
+   "cls": [
+    "BRIDGE"
+   ],
+   "region": [
+    "BITCELL_ARRAY"
+   ],
+   "fault_models": [
+    "CF",
+    "SAF"
+   ],
+   "tests": [
+    "March SS",
+    "Checkerboard"
+   ],
+   "action": "REPAIR_COL",
+   "template": "Extra material inside the bitcell array near rows {rows}, columns {cols} can couple cells. Run March SS and a checkerboard on the area; repair affected lines with spares.",
+   "source": "Generic intra-array bridges are covered by March SS."
+  },
+  {
+   "id": "KB07",
+   "cls": [
+    "OPEN"
+   ],
+   "region": [
+    "BITCELL_ARRAY"
+   ],
+   "nets_any": [
+    "bl_*",
+    "br_*"
+   ],
+   "fault_models": [
+    "BL_OPEN",
+    "SOF"
+   ],
+   "tests": [
+    "March C-",
+    "Checkerboard"
+   ],
+   "action": "REPAIR_COL",
+   "template": "Break in the bitline of column {cols} disconnects cells beyond it. Run March C- on column {cols}; replace the column with a spare column.",
+   "source": "Bitline opens give stuck-open behaviour for cells past the break."
+  },
+  {
+   "id": "KB08",
+   "cls": [
+    "OPEN"
+   ],
+   "region": [
+    "BITCELL_ARRAY"
+   ],
+   "nets_any": [
+    "wl_*"
+   ],
+   "fault_models": [
+    "WL_OPEN",
+    "AF"
+   ],
+   "tests": [
+    "March C-",
+    "Address decoder test"
+   ],
+   "action": "REPAIR_ROW",
+   "template": "Break in the wordline of row {rows} leaves cells past the break unselected. Run March C- on row {rows}; replace the row with a spare row.",
+   "source": "Wordline opens behave like address faults for the cut-off cells."
+  },
+  {
+   "id": "KB09",
+   "cls": [
+    "OPEN"
+   ],
+   "region": [
+    "BITCELL_ARRAY"
+   ],
+   "nets_any": [
+    "vdd",
+    "gnd"
+   ],
+   "fault_models": [
+    "DRF",
+    "SAF"
+   ],
+   "tests": [
+    "Data retention test",
+    "March C-"
+   ],
+   "action": "REPAIR_ROW",
+   "template": "Break in a supply line near row {rows} starves cells of power, so they may lose data. Run a data retention test and March C- on row {rows}; repair with a spare row.",
+   "source": "Supply opens cause weak cells and retention failures."
+  },
+  {
+   "id": "KB10",
+   "cls": [
+    "OPEN"
+   ],
+   "region": [
+    "BITCELL_ARRAY"
+   ],
+   "fault_models": [
+    "TF",
+    "SOF"
+   ],
+   "tests": [
+    "March C-"
+   ],
+   "action": "REPAIR_COL",
+   "template": "Break inside the bitcell at row {rows}, column {cols} can block transitions. Run March C- to confirm and repair with a spare row or column.",
+   "source": "Intra-cell opens give transition or stuck-open faults."
+  },
+  {
+   "id": "KB11",
+   "cls": [
+    "MISSING_VIA"
+   ],
+   "region": [
+    "BITCELL_ARRAY"
+   ],
+   "fault_models": [
+    "SOF",
+    "TF"
+   ],
+   "tests": [
+    "March C-",
+    "Data retention test"
+   ],
+   "action": "REPAIR_COL",
+   "template": "Missing contact or via in the cell at row {rows}, column {cols} breaks a connection, so the cell may not switch or be read. Run March C- on that cell; repair with a spare row or column.",
+   "source": "Missing contacts behave as resistive or full opens."
+  },
+  {
+   "id": "KB12",
+   "cls": [
+    "PARTICLE"
+   ],
+   "region": [
+    "BITCELL_ARRAY"
+   ],
+   "fault_models": [
+    "CF",
+    "SAF"
+   ],
+   "tests": [
+    "March SS",
+    "Checkerboard"
+   ],
+   "action": "REPAIR_COL",
+   "template": "Particle over rows {rows}, columns {cols} may short or open several cells. Run March SS and a checkerboard on the area; repair affected lines with spares.",
+   "source": "Spot defects (particles) cause multi-cell coupling and stuck-at faults."
+  },
+  {
+   "id": "KB13",
+   "cls": [
+    "BRIDGE",
+    "OPEN",
+    "PARTICLE",
+    "MISSING_VIA"
+   ],
+   "region": [
+    "ROW_DECODER"
+   ],
+   "fault_models": [
+    "AF"
+   ],
+   "tests": [
+    "Address decoder test",
+    "MATS+"
+   ],
+   "action": "SCRAP",
+   "template": "Defect in the row decoder can select wrong or multiple rows. Confirm with an address-decoder March test; decoder faults are not repairable with spare rows, scrap the die.",
+   "source": "Decoder faults map to address faults (AF)."
+  },
+  {
+   "id": "KB14",
+   "cls": [
+    "BRIDGE",
+    "OPEN",
+    "PARTICLE",
+    "MISSING_VIA"
+   ],
+   "region": [
+    "SENSE_AMP"
+   ],
+   "fault_models": [
+    "SA_FAULT"
+   ],
+   "tests": [
+    "March C-",
+    "Functional test"
+   ],
+   "action": "SCRAP",
+   "template": "Defect in a sense amplifier corrupts reads on its column. Confirm with March C- reads; this macro has no spare sense amp, scrap the die.",
+   "source": "Sense-amp faults appear as column read failures."
+  },
+  {
+   "id": "KB15",
+   "cls": [
+    "BRIDGE",
+    "OPEN",
+    "PARTICLE",
+    "MISSING_VIA"
+   ],
+   "region": [
+    "WRITE_DRIVER"
+   ],
+   "fault_models": [
+    "WD_FAULT"
+   ],
+   "tests": [
+    "March C-",
+    "Functional test"
+   ],
+   "action": "SCRAP",
+   "template": "Defect in a write driver prevents correct writes on its column. Confirm with March C- write-read sequences; not repairable here, scrap the die.",
+   "source": "Write-driver faults appear as transition faults on a column."
+  },
+  {
+   "id": "KB16",
+   "cls": [
+    "BRIDGE",
+    "OPEN",
+    "PARTICLE",
+    "MISSING_VIA"
+   ],
+   "region": [
+    "PRECHARGE"
+   ],
+   "fault_models": [
+    "PRE_FAULT"
+   ],
+   "tests": [
+    "March C-",
+    "Checkerboard"
+   ],
+   "action": "SCRAP",
+   "template": "Defect in the bitline precharge stops bitlines resetting before a read. Confirm with March C-; not repairable here, scrap the die.",
+   "source": "Precharge faults cause read failures on affected columns."
+  },
+  {
+   "id": "KB17",
+   "cls": [
+    "BRIDGE",
+    "OPEN",
+    "PARTICLE",
+    "MISSING_VIA"
+   ],
+   "region": [
+    "CONTROL"
+   ],
+   "fault_models": [
+    "CTRL_FAULT"
+   ],
+   "tests": [
+    "Functional test",
+    "IDDQ test"
+   ],
+   "action": "SCRAP",
+   "template": "Defect in the control logic affects the whole macro. Run a full functional test to confirm; scrap the die.",
+   "source": "Control-path defects are global failures."
+  },
+  {
+   "id": "KB18",
+   "cls": [
+    "BRIDGE",
+    "OPEN",
+    "PARTICLE",
+    "MISSING_VIA"
+   ],
+   "region": [
+    "DUMMY_ARRAY"
+   ],
+   "fault_models": [
+    "NO_FAULT"
+   ],
+   "tests": [
+    "Visual re-inspection"
+   ],
+   "action": "NO_ACTION",
+   "template": "Defect is in the dummy or replica cells at the array edge and does not affect stored data. No repair needed; note it in the log.",
+   "source": "Dummy cells are not addressed."
+  },
+  {
+   "id": "KB19",
+   "cls": [
+    "BRIDGE",
+    "OPEN",
+    "PARTICLE",
+    "MISSING_VIA"
+   ],
+   "region": [
+    "OUTSIDE"
+   ],
+   "fault_models": [
+    "NO_FAULT"
+   ],
+   "tests": [
+    "Visual re-inspection"
+   ],
+   "action": "NO_ACTION",
+   "template": "Defect is outside the circuit area and has no electrical effect. No action needed.",
+   "source": "Outside active circuitry."
+  },
+  {
+   "id": "KB20",
+   "cls": [
+    "BRIDGE",
+    "OPEN",
+    "PARTICLE",
+    "MISSING_VIA"
+   ],
+   "region": [
+    "ROUTING"
+   ],
+   "fault_models": [
+    "UNKNOWN"
+   ],
+   "tests": [
+    "Visual re-inspection",
+    "Functional test"
+   ],
+   "action": "REINSPECT",
+   "template": "Defect is on routing between blocks, so the affected signal is unknown. Re-inspect at higher magnification and run a functional test before deciding.",
+   "source": "Routing nets are not extracted in this build."
+  },
+  {
+   "id": "KB23",
+   "cls": [
+    "BRIDGE"
+   ],
+   "region": [
+    "UNMAPPED"
+   ],
+   "fault_models": [
+    "CF",
+    "SAF"
+   ],
+   "tests": [
+    "Visual re-inspection",
+    "March SS"
+   ],
+   "action": "REINSPECT",
+   "template": "Extra material bridges features inside a repeating memory array, which can short neighbouring cells or lines. Without the layout the nets are unknown; re-inspect and check against the die's design before deciding.",
+   "source": "Bridges in arrays usually cause coupling or stuck-at faults; cell-to-cell comparison finds them without a design file."
+  },
+  {
+   "id": "KB24",
+   "cls": [
+    "OPEN"
+   ],
+   "region": [
+    "UNMAPPED"
+   ],
+   "fault_models": [
+    "SOF",
+    "TF"
+   ],
+   "tests": [
+    "Visual re-inspection",
+    "March C-"
+   ],
+   "action": "REINSPECT",
+   "template": "A break in a repeating array line can disconnect cells beyond it. Without the layout the line can't be identified; re-inspect and check against the die's design before deciding.",
+   "source": "Opens in array lines behave as stuck-open faults for the cut-off cells."
+  },
+  {
+   "id": "KB25",
+   "cls": [
+    "PARTICLE"
+   ],
+   "region": [
+    "UNMAPPED"
+   ],
+   "fault_models": [
+    "CF",
+    "SAF"
+   ],
+   "tests": [
+    "Visual re-inspection",
+    "March SS"
+   ],
+   "action": "REINSPECT",
+   "template": "A particle on the array may short or open several cells. Without the layout its exact cells are unknown; re-inspect and check against the die's design before deciding.",
+   "source": "Spot defects cause multi-cell coupling and stuck-at faults."
+  },
+  {
+   "id": "KB26",
+   "cls": [
+    "MISSING_VIA"
+   ],
+   "region": [
+    "UNMAPPED"
+   ],
+   "fault_models": [
+    "SOF",
+    "TF"
+   ],
+   "tests": [
+    "Visual re-inspection",
+    "March C-"
+   ],
+   "action": "REINSPECT",
+   "template": "A contact or via appears to be missing in a repeating cell, which can leave that cell unreadable. Without the layout it can't be pinned to a bitcell; re-inspect and check against the die's design.",
+   "source": "Missing contacts behave as resistive or full opens."
+  },
+  {
+   "id": "KB21",
+   "cls": [
+    "UNKNOWN"
+   ],
+   "region": [
+    "*"
+   ],
+   "fault_models": [
+    "UNKNOWN"
+   ],
+   "tests": [
+    "Visual re-inspection"
+   ],
+   "action": "REINSPECT",
+   "template": "Unrecognised anomaly that does not match the golden layout. Re-inspect it before making a decision.",
+   "source": "Anomaly path."
+  },
+  {
+   "id": "KB22",
+   "cls": [
+    "*"
+   ],
+   "region": [
+    "*"
+   ],
+   "low_confidence": true,
+   "fault_models": [
+    "UNKNOWN"
+   ],
+   "tests": [
+    "Visual re-inspection"
+   ],
+   "action": "REINSPECT",
+   "template": "The detection or its position on the layout is uncertain. Re-image the area and inspect again before deciding.",
+   "source": "Review path for low-confidence cases."
+  }
+ ]
+}
