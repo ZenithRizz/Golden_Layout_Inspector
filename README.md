@@ -41,7 +41,7 @@ Everything runs offline on an Arm CPU. **No real defect images are needed**: the
 
 ## Demo
 
-📹 **Demo video:** _link to be added_
+📹 **Demo video:** (https://drive.google.com/file/d/1oUXETcXb6vSZl9u2Ez-tu9MMg-HB_m5I/view?usp=sharing)
 
 <p align="center">
   <img src="docs/report/fig/ui_inspection_repair.png" width="85%" alt="Inspection screen: two array defects mapped to bitcells r7 c6-c7, decision REPAIR with spare columns 6 and 7">
